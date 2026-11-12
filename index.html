@@ -123,7 +123,7 @@ body{background:var(--soft,#F5F2EA)}
 .navt{flex:none;white-space:nowrap;font-size:13px;padding:9px 11px;min-height:38px}
 .content{padding:16px 14px 40px}
 .h1{font-size:22px}.h2{font-size:17px}
-.row.between{flex-wrap:wrap;gap:10px}.row.between>div:first-child{flex:1 1 230px;min-width:0}
+.row.between{flex-wrap:wrap;gap:10px}.row.between>div:first-child:not(.icon-box):not(.avatar){flex:1 1 230px;min-width:0}
 .filters,.prompts{flex-wrap:wrap}
 .g2,.g3,.split,.split-even{grid-template-columns:1fr!important}
 .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -201,6 +201,9 @@ td[data-l=""]:not(:first-child):not(:has(button)){display:none}
 .chip,.tag{max-width:100%;white-space:normal}
 }
 @media(max-width:800px){.mi>.icon{transform:rotate(-90deg)}}
+@media(max-width:800px){.aihero>.icon-box{width:40px!important;height:40px!important;border-radius:12px}.aihero>.icon-box .icon{width:22px!important;height:22px!important}}
+@media(max-width:800px){.chk{flex-wrap:wrap}.chk>.grow,.chk>div:not(.icon-box){min-width:0}.row.between>.icon-box{flex:none}}
+@media(max-width:800px){.chart{overflow-x:auto;-webkit-overflow-scrolling:touch}.chart>svg{min-width:500px}}
 
 </style>
 </head>
@@ -1068,7 +1071,7 @@ function done(msg){S.modal='';render();toast(msg)}
 
 /* ===== Infra ===== */
 function nav(s){S.screen=s;S.menuOpen=false;if(s==='employee')S.rxTab=S.rxTab||'raiox';render(true)}
-function render(top=false){const m=$('#main'),pos=m?.scrollTop||0;$('#app').innerHTML=shell();const o=$('#overlay');if(o){o.innerHTML=renderModal();fitAreas(o)}if(isMob())mobileTables();updateShorts();{const t=document.querySelector('.topnav'),a=t&&t.querySelector('.navt.active');if(a&&t.scrollWidth>t.clientWidth)t.scrollLeft=Math.max(0,a.offsetLeft-24)}if($('#main'))$('#main').scrollTop=top?0:pos;const c=$('#chatbox');if(c)c.scrollTop=c.scrollHeight;const w=$('#wa-body');if(w)w.scrollTop=w.scrollHeight}
+function render(top=false){const m=$('#main'),pos=m?.scrollTop||0;$('#app').innerHTML=shell();const o=$('#overlay');if(o){o.innerHTML=renderModal();fitAreas(o)}if(isMob()){mobileTables();document.querySelectorAll('.tabs2').forEach(t=>{const a=t.querySelector('.tab2.on');if(a&&t.scrollWidth>t.clientWidth)t.scrollLeft=Math.max(0,a.offsetLeft-30)})}updateShorts();{const t=document.querySelector('.topnav'),a=t&&t.querySelector('.navt.active');if(a&&t.scrollWidth>t.clientWidth)t.scrollLeft=Math.max(0,a.offsetLeft-24)}if($('#main'))$('#main').scrollTop=top?0:pos;const c=$('#chatbox');if(c)c.scrollTop=c.scrollHeight;const w=$('#wa-body');if(w)w.scrollTop=w.scrollHeight}
 function updateShorts(){$('#shortcuts').innerHTML=[...NAV,...MORE,['login','Tela de acesso']].map(([k,l])=>`<button data-nav="${k}" class="${S.screen===k||(k==='team'&&S.screen==='employee')?'active':''}">${E(l)}</button>`).join('')}
 function toast(msg){$('.toast')?.remove();const t=document.createElement('div');t.className='toast';t.textContent=msg;$('#app').appendChild(t);clearTimeout(toast.t);toast.t=setTimeout(()=>t.remove(),3300)}
 function openModal(k){S.modal=k;const o=$('#overlay');if(o){o.innerHTML=renderModal();fitAreas(o)}}
